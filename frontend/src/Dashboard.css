@@ -1,0 +1,253 @@
+* {    
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar {
+    background-color: #f9d71c; 
+    color: #fff;
+    padding: 10px 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 80px; 
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+}
+
+.logo-icon {
+    width: 70px; 
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+}
+
+.search-box button {
+    padding: 8px 15px;
+    font-size: 16px;
+    background-color: #f9d71c; 
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.nav-links {
+    list-style: none;
+}
+
+.nav-links li {
+    display: inline;
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: #fff;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+main {
+    flex-grow: 1;
+    margin-top: 80px;
+    padding: 20px;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+#reviews {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.reviews-h {
+    margin: 45px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reviews-h h1 {
+    font-size: 2.2rem;
+    background-color: #f9d71c;
+    color: white;
+    padding: 10px 20px;
+}
+
+.reviews-h span {
+    font-size: 1.3rem;
+    color: #f9d71c;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.review-box-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    width: 80%;
+}
+
+.review-box {
+    max-width: 500px;
+    box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 15px;
+}
+
+.user {
+    display: flex;
+    justify-content: space-between;   /* ⇦ clave para que los botones queden a la derecha */
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.user-data {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.name-user {
+    display: flex;
+    flex-direction: column;
+}
+
+.name-user strong {
+    color: #3d3d3d;
+    font-size: 1.1rem;
+}
+
+.name-user span {
+    color: #979797;
+    font-size: 0.8rem;
+}
+
+/* ---------------------------
+   Botones EDITAR / ELIMINAR
+---------------------------- */
+
+.post-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
+}
+
+.btn-accion {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* amarillo = editar */
+.btn-accion.editar {
+    background-color: #ffc107;
+    color: #000;
+    font-weight: bold;
+}
+
+/* rojo = eliminar */
+.btn-accion.eliminar {
+    background-color: #e53935;
+    color: #fff;
+    font-weight: bold;
+}
+
+.btn-accion:hover {
+    filter: brightness(0.9);
+}
+
+.user-review p {
+    font-size: 0.9rem;
+    color: #4b4b4b;
+}
+
+footer {
+    background-color: #f9d71c;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+}
+
+/* Categorías */
+.categoria-link {
+    font-weight: 600;
+    text-decoration: underline;
+}
+.categoria-link:hover {
+    text-decoration: none;
+}
+
+/* PAGINACIÓN */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 30px 0 40px;
+}
+
+.pagination .page-link {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid #ffc107;
+    text-decoration: none;
+    color: #000;
+}
+
+.pagination .page-link.active,
+.pagination .page-link:hover {
+    background-color: #ffc107;
+    color: #000;
+    font-weight: bold;
+}
