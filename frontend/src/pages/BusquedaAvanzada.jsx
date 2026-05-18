@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../Dashboard.css";
 import "../BusquedaAvanzada.css";
+import { Link } from "react-router-dom";
 
 function BusquedaAvanzada() {
   const idUsuarioSesion = 1; // Simulación usuario logueado
@@ -75,11 +76,11 @@ function BusquedaAvanzada() {
             </div>
 
             <ul className="nav-links">
-              <li><a href="#">Busqueda Avanzada</a></li>
-              <li><a href="#">Inicio</a></li>
-              <li><a href="#">Login</a></li>
-              <li><a href="#">Perfil</a></li>
-              <li><a href="#">Publicar</a></li>
+              <li><Link to="/busqueda">Busqueda Avanzada</Link></li>
+              <li><Link to="/">Inicio</Link></li>
+              <li><Link to="/login">Login</Link></li>
+              <li><Link to="/perfil">Perfil</Link></li>
+              <li><Link to="/publicar">Publicar</Link></li>
             </ul>
           </div>
         </nav>

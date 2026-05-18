@@ -46,7 +46,7 @@ function Registro() {
 
     try {
       const response = await fetch(
-        "http://localhost/MIGRACION/backend/RegistroValidacion.php",
+        "http://localhost:5000/api/usuarios/registro",
         {
           method: "POST",
           body: formData
@@ -124,8 +124,23 @@ function Registro() {
               type="file"
               accept="image/*"
               required
-              onChange={(e) => setImagen(e.target.files[0])}
+              onChange={(e) => {
+                const archivo = e.target.files[0];
+
+                if (archivo) {
+                  setImagen(archivo);
+                }
+              }}
             />
+
+            {imagen && (
+              <div className="preview-imagen">
+                <img
+                  src={URL.createObjectURL(imagen)}
+                  alt="Previsualización"
+                />
+              </div>
+            )}
 
             <input
               type="text"
@@ -163,7 +178,7 @@ function Registro() {
         </div>
 
         <div className="imagen">
-          <img src="/AnimaReview.png" alt="Logo" />
+          <img src="/Icono.png" alt="Logo" />
         </div>
       </div>
 

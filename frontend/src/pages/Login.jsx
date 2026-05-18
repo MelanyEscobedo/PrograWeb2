@@ -19,13 +19,12 @@ function Login() {
 
     try {
       const response = await fetch(
-        "http://localhost/MIGRACION/backend/LoginValidacion.php",
+        "http://localhost:5000/api/usuarios/login",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          credentials: "include",
           body: JSON.stringify({
             nombre_usuario,
             contrasena
@@ -36,7 +35,7 @@ function Login() {
       const data = await response.json();
 
       if (data.success) {
-        navigate("/dashboard");
+        navigate("/");
       } else {
         setMensaje(data.message);
       }

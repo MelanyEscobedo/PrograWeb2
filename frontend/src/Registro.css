@@ -97,3 +97,17 @@ body {
     color: #b30000;
     border: 1px solid #ff9999;
 }
+
+.preview-imagen {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.preview-imagen img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #ffc107;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+}

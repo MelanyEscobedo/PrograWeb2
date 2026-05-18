@@ -1,19 +1,26 @@
 const mongoose = require("mongoose");
 
 const publicacionSchema = new mongoose.Schema({
-  contenido: String,
+  contenido: {
+    type: String,
+    required: true
+  },
   fecha_publicacion: {
     type: Date,
     default: Date.now
   },
   usuario: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Usuario"
+    ref: "Usuario",
+    required: true
   },
-  categoria: {
+  pelicula: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Categoria"
+    ref: "Pelicula",
+    required: true
   }
+}, {
+  collection: "publicaciones"
 });
 
 module.exports = mongoose.model("Publicacion", publicacionSchema);
