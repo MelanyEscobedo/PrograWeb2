@@ -4,43 +4,80 @@ const router = express.Router();
 const Publicacion = require("../models/publicaciones");
 const ValoracionPublicacion = require("../models/valoracionPublicacion");
 
+const agregarPromedios = async (publicaciones) => {
+  return await Promise.all(
+    publicaciones.map(async (pub) => {
+      const promedio = await ValoracionPublicacion.aggregate([
+        {
+          $match: {
+            publicacion: pub._id
+          }
+        },
+        {
+          $group: {
+            _id: "$publicacion",
+            promedio: { $avg: "$valor" },
+            total: { $sum: 1 }
+          }
+        }
+      ]);
+
+      const promedioEstrellas =
+        promedio.length > 0 ? promedio[0].promedio : 0;
+
+      return {
+        ...pub.toObject(),
+        promedioEstrellas,
+        promedioDecimal: promedioEstrellas * 2,
+        totalValoraciones: promedio.length > 0 ? promedio[0].total : 0
+      };
+    })
+  );
+};
+
 router.get("/", async (req, res) => {
   try {
-    const { orden = "recientes" } = req.query;
+    const {
+      orden = "recientes",
+      user,
+      search,
+      startDate,
+      endDate
+    } = req.query;
 
-    let publicaciones = await Publicacion.find()
+    const filtro = {};
+
+    if (user) {
+      filtro.usuario = user;
+    }
+
+    if (search) {
+      filtro.$or = [
+        { titulo: { $regex: search, $options: "i" } },
+        { descripcion: { $regex: search, $options: "i" } }
+      ];
+    }
+
+    if (startDate || endDate) {
+      filtro.fechaPublicacion = {};
+
+      if (startDate) {
+        filtro.fechaPublicacion.$gte = new Date(startDate);
+      }
+
+      if (endDate) {
+        const fechaFinal = new Date(endDate);
+        fechaFinal.setHours(23, 59, 59, 999);
+        filtro.fechaPublicacion.$lte = fechaFinal;
+      }
+    }
+
+    const publicaciones = await Publicacion.find(filtro)
       .populate("usuario", "nombre_usuario imagen_perfil")
-      .populate("pelicula", "titulo poster")
       .populate("pelicula", "titulo poster categoria")
       .sort({ fechaPublicacion: -1 });
 
-    const publicacionesConPromedio = await Promise.all(
-      publicaciones.map(async (pub) => {
-        const promedio = await ValoracionPublicacion.aggregate([
-          {
-            $match: {
-              publicacion: pub._id
-            }
-          },
-          {
-            $group: {
-              _id: "$publicacion",
-              promedio: { $avg: "$valor" },
-              total: { $sum: 1 }
-            }
-          }
-        ]);
-
-        const promedioEstrellas = promedio.length > 0 ? promedio[0].promedio : 0;
-
-        return {
-          ...pub.toObject(),
-          promedioEstrellas,
-          promedioDecimal: promedioEstrellas * 2,
-          totalValoraciones: promedio.length > 0 ? promedio[0].total : 0
-        };
-      })
-    );
+    let publicacionesConPromedio = await agregarPromedios(publicaciones);
 
     if (orden === "mejorValoradas") {
       publicacionesConPromedio.sort(
@@ -62,25 +99,9 @@ router.get("/:id", async (req, res) => {
       .populate("pelicula", "titulo poster categoria")
       .populate("comentarios.usuario", "nombre_usuario imagen_perfil");
 
-    const promedio = await ValoracionPublicacion.aggregate([
-      { $match: { publicacion: publicacion._id } },
-      {
-        $group: {
-          _id: "$publicacion",
-          promedio: { $avg: "$valor" },
-          total: { $sum: 1 }
-        }
-      }
-    ]);
+    const publicacionesConPromedio = await agregarPromedios([publicacion]);
 
-    const promedioEstrellas = promedio.length > 0 ? promedio[0].promedio : 0;
-
-    res.json({
-      ...publicacion.toObject(),
-      promedioEstrellas,
-      promedioDecimal: promedioEstrellas * 2,
-      totalValoraciones: promedio.length > 0 ? promedio[0].total : 0
-    });
+    res.json(publicacionesConPromedio[0]);
 
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -184,6 +205,7 @@ router.put("/:id", async (req, res) => {
       success: true,
       publicacion
     });
+
   } catch (error) {
     res.status(400).json({
       success: false,
@@ -204,6 +226,7 @@ router.delete("/:id", async (req, res) => {
       success: true,
       message: "Publicación y valoraciones eliminadas."
     });
+
   } catch (error) {
     res.status(500).json({
       success: false,
