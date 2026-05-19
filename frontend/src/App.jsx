@@ -6,6 +6,7 @@ import EditarPerfil from "./pages/EditarPerfil";
 import Login from "./pages/Login";
 import Perfil from "./pages/Perfil";
 import Registro from "./pages/Registro";
+import DetallePublicacion from "./pages/DetallePublicacion";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/registro" element={<Registro />} />
+        <Route path="/publicacion/:id" element={<DetallePublicacion />} />
       </Routes>
     </BrowserRouter>
   );

@@ -47,63 +47,67 @@ function Login() {
   };
 
   return (
-    <div id="divLogin">
-      <form id="formLogin" onSubmit={handleSubmit}>
-        <h1>
-          <span className="anima">Anima</span>
-          <span className="review">Review</span>
-        </h1>
+  <div className="login-page">
+    <div className="login-container">
+      <div id="divLogin">
+        <form id="formLogin" onSubmit={handleSubmit}>
+          <h1>
+            <span className="anima">Anima</span>
+            <span className="review">Review</span>
+          </h1>
 
-        <h2>Inicio de sesión</h2>
+          <h2>Inicio de sesión</h2>
 
-        {mensaje && (
-          <p style={{ color: "red" }}>
-            {mensaje}
-          </p>
-        )}
+          {mensaje && (
+            <p style={{ color: "red" }}>
+              {mensaje}
+            </p>
+          )}
 
-        <div className="input-box">
-          <input
-            type="text"
-            placeholder="Nombre de usuario"
-            value={nombre_usuario}
-            onChange={(e) => setNombreUsuario(e.target.value)}
-            required
-          />
-        </div>
+          <div className="input-box">
+            <input
+              type="text"
+              placeholder="Nombre de usuario"
+              value={nombre_usuario}
+              onChange={(e) => setNombreUsuario(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="input-box">
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={contrasena}
-            onChange={(e) => setContrasena(e.target.value)}
-            required
-          />
-        </div>
+          <div className="input-box">
+            <input
+              type="password"
+              placeholder="Contraseña"
+              value={contrasena}
+              onChange={(e) => setContrasena(e.target.value)}
+              required
+            />
+          </div>
 
-        <button type="submit" className="btn">
-          Ingresar
-        </button>
+          <button type="submit" className="btn">
+            Ingresar
+          </button>
 
-        <div className="link-registro">
-          <p>
-            ¿No tienes cuenta?{" "}
-            <span
-              style={{ cursor: "pointer", color: "#00f" }}
-              onClick={() => navigate("/registro")}
-            >
-              Regístrate
-            </span>
-          </p>
-        </div>
-      </form>
-
-      <footer>
-        © 2025 AnimaReview. Desarrollo Felix Dauajare Ramirez
-      </footer>
+          <div className="link-registro">
+            <p>
+              ¿No tienes cuenta?{" "}
+              <span
+                style={{ cursor: "pointer", color: "#00f" }}
+                onClick={() => navigate("/registro")}
+              >
+                Regístrate
+              </span>
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
-  );
+
+    <footer>
+      © 2025 AnimaReview. Desarrollo Felix Dauajare Ramirez
+    </footer>
+  </div>
+);
 }
 
 export default Login;

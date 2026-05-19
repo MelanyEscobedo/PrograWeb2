@@ -55,6 +55,65 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const publicacion = await Publicacion.findById(req.params.id)
+      .populate("usuario", "nombre_usuario imagen_perfil")
+      .populate("pelicula", "titulo poster categoria")
+      .populate("comentarios.usuario", "nombre_usuario imagen_perfil");
+
+    const promedio = await ValoracionPublicacion.aggregate([
+      { $match: { publicacion: publicacion._id } },
+      {
+        $group: {
+          _id: "$publicacion",
+          promedio: { $avg: "$valor" },
+          total: { $sum: 1 }
+        }
+      }
+    ]);
+
+    const promedioEstrellas = promedio.length > 0 ? promedio[0].promedio : 0;
+
+    res.json({
+      ...publicacion.toObject(),
+      promedioEstrellas,
+      promedioDecimal: promedioEstrellas * 2,
+      totalValoraciones: promedio.length > 0 ? promedio[0].total : 0
+    });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.post("/:id/comentar", async (req, res) => {
+  try {
+    const { usuario, texto } = req.body;
+
+    const publicacion = await Publicacion.findById(req.params.id);
+
+    publicacion.comentarios.push({
+      usuario,
+      texto,
+      fecha: new Date()
+    });
+
+    await publicacion.save();
+
+    res.json({
+      success: true,
+      message: "Comentario agregado."
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const nuevaPublicacion = new Publicacion(req.body);
@@ -78,29 +137,25 @@ router.post("/:id/valorar", async (req, res) => {
     const { usuario, valor } = req.body;
     const { id } = req.params;
 
-    const existe = await ValoracionPublicacion.findOne({
-      usuario,
-      publicacion: id
-    });
+    const valoracion = await ValoracionPublicacion.findOneAndUpdate(
+      {
+        usuario,
+        publicacion: id
+      },
+      {
+        valor,
+        fecha: new Date()
+      },
+      {
+        new: true,
+        upsert: true
+      }
+    );
 
-    if (existe) {
-      return res.status(400).json({
-        success: false,
-        message: "Ya valoraste esta publicación."
-      });
-    }
-
-    const nuevaValoracion = new ValoracionPublicacion({
-      usuario,
-      publicacion: id,
-      valor
-    });
-
-    await nuevaValoracion.save();
-
-    res.status(201).json({
+    res.json({
       success: true,
-      message: "Valoración guardada."
+      message: "Valoración guardada.",
+      valoracion
     });
 
   } catch (error) {

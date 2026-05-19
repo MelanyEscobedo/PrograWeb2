@@ -1,8 +1,22 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const navigate = useNavigate();
+  const [busqueda, setBusqueda] = useState("");
+
   const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+  const buscar = (e) => {
+    e.preventDefault();
+
+    if (!busqueda.trim()) {
+      navigate("/busqueda");
+      return;
+    }
+
+    navigate(`/busqueda?query=${encodeURIComponent(busqueda)}`);
+  };
 
   const cerrarSesion = () => {
     localStorage.removeItem("usuario");
@@ -11,21 +25,26 @@ function Navbar() {
 
   return (
     <header>
-      <nav className="navbar fixed-top">
+      <nav className="navbar">
         <div className="container">
           <Link to="/" className="logo">
             <img src="../public/icono.png" alt="Logo" className="logo-icon" />
           </Link>
 
           <div className="search-box">
-            <form>
-              <input type="text" placeholder="Buscar..." />
+            <form onSubmit={buscar}>
+              <input
+                type="text"
+                placeholder="Buscar..."
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+              />
+
               <button type="submit">Buscar</button>
             </form>
           </div>
 
           <ul className="nav-links">
-            <li><Link to="/busqueda">Búsqueda Avanzada</Link></li>
             <li><Link to="/">Inicio</Link></li>
 
             {!usuario ? (

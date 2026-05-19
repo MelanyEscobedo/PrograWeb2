@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "../Dashboard.css";
 import Navbar from "../assets/Navbar";
 
@@ -191,6 +192,10 @@ function Dashboard() {
                         </button>
                       ))}
                     </div>
+
+                    <Link className="comment-button" to={`/publicacion/${pub._id}`}>
+                      Comentar
+                    </Link>
 
                     <small>{pub.totalValoraciones} valoraciones</small>
                   </div>
