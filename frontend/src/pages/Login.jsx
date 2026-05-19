@@ -35,6 +35,7 @@ function Login() {
       const data = await response.json();
 
       if (data.success) {
+        localStorage.setItem("usuario", JSON.stringify(data.usuario));
         navigate("/");
       } else {
         setMensaje(data.message);

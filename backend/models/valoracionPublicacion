@@ -1,0 +1,36 @@
+const mongoose = require("mongoose");
+
+const valoracionPublicacionSchema = new mongoose.Schema({
+  usuario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Usuario",
+    required: true
+  },
+  publicacion: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Publicacion",
+    required: true
+  },
+  valor: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 5
+  },
+  fecha: {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  collection: "valoraciones"
+});
+
+valoracionPublicacionSchema.index(
+  { usuario: 1, publicacion: 1 },
+  { unique: true }
+);
+
+module.exports = mongoose.model(
+  "ValoracionPublicacion",
+  valoracionPublicacionSchema
+);

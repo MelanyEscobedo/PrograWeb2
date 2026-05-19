@@ -11,7 +11,11 @@ const peliculaSchema = new mongoose.Schema({
   },
   categoria: {
     type: String,
-    required: true
+    default: "Sin categoría"
+  },
+  usuario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Usuario"
   }
 }, {
   collection: "peliculas"

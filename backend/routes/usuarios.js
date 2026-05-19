@@ -74,7 +74,9 @@ router.post("/registro", upload.single("imagen_perfil"), async (req, res) => {
             correo_electronico,
             nombre_usuario,
             contrasena: passwordHash,
-            imagen_perfil: req.file ? req.file.filename : ""
+            imagen_perfil: req.file
+                ? `/uploads/usuarios/${req.file.filename}`
+                : ""
         });
 
         await nuevoUsuario.save();

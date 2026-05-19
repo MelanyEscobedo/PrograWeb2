@@ -1,13 +1,35 @@
 const mongoose = require("mongoose");
 
-const publicacionSchema = new mongoose.Schema({
-  contenido: {
+const comentarioSchema = new mongoose.Schema({
+  usuario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Usuario",
+    required: true
+  },
+  texto: {
     type: String,
     required: true
   },
-  fecha_publicacion: {
+  fecha: {
     type: Date,
     default: Date.now
+  }
+});
+
+const publicacionSchema = new mongoose.Schema({
+  titulo: {
+    type: String,
+    required: true
+  },
+  descripcion: {
+    type: String,
+    required: true
+  },
+  calificacion: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 10
   },
   usuario: {
     type: mongoose.Schema.Types.ObjectId,
@@ -18,6 +40,11 @@ const publicacionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Pelicula",
     required: true
+  },
+  comentarios: [comentarioSchema],
+  fechaPublicacion: {
+    type: Date,
+    default: Date.now
   }
 }, {
   collection: "publicaciones"

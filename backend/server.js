@@ -3,10 +3,11 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-dotenv.config({ path: "./config/.env" });
+dotenv.config({ path: ".env" });
 
 const publicacionesRoutes = require("./routes/publicaciones");
 const usuariosRoutes = require("./routes/usuarios");
+const peliculasRoutes = require("./routes/peliculas");
 
 const app = express();
 
@@ -15,7 +16,8 @@ const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/animarevie
 
 app.use(cors());
 app.use(express.json());
-app.use("/uploads", express.static("uploads"));
+const path = require("path");
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 mongoose.connect(MONGO_URI)
   .then(() => console.log("Mongo conectado"))
@@ -23,6 +25,7 @@ mongoose.connect(MONGO_URI)
 
 app.use("/api/publicaciones", publicacionesRoutes);
 app.use("/api/usuarios", usuariosRoutes);
+app.use("/api/peliculas", peliculasRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
