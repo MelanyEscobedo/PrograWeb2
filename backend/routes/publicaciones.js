@@ -147,7 +147,7 @@ router.post("/:id/valorar", async (req, res) => {
         fecha: new Date()
       },
       {
-        new: true,
+        returnDocument: "after",
         upsert: true
       }
     );
@@ -160,6 +160,52 @@ router.post("/:id/valorar", async (req, res) => {
 
   } catch (error) {
     res.status(400).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  try {
+    const { titulo, descripcion, calificacion } = req.body;
+
+    const publicacion = await Publicacion.findByIdAndUpdate(
+      req.params.id,
+      {
+        titulo,
+        descripcion,
+        calificacion
+      },
+      { returnDocument: "after" }
+    );
+
+    res.json({
+      success: true,
+      publicacion
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    await ValoracionPublicacion.deleteMany({
+      publicacion: req.params.id
+    });
+
+    await Publicacion.findByIdAndDelete(req.params.id);
+
+    res.json({
+      success: true,
+      message: "Publicación y valoraciones eliminadas."
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
       error: error.message
     });

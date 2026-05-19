@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const multer = require("multer");
 const fs = require("fs");
-
 const Usuario = require("../models/usuario");
 
 if (!fs.existsSync("uploads")) {
@@ -130,6 +129,58 @@ router.post("/login", async (req, res) => {
             message: error.message
         });
     }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const usuario = await Usuario.findById(req.params.id).select("-contrasena");
+    res.json(usuario);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.put("/:id", upload.single("imagen_perfil"), async (req, res) => {
+  try {
+    const datos = {};
+
+    if (req.body.nombre) {
+        datos.nombre = req.body.nombre;
+    }
+
+    if (req.body.apellidos) {
+      datos.apellidos = req.body.apellidos;
+    }
+
+    if (req.body.fecha_nacimiento) {
+      datos.fecha_nacimiento = req.body.fecha_nacimiento;
+    }
+
+    if (req.body.contrasena) {
+      datos.contrasena = await bcrypt.hash(req.body.contrasena, 10);
+    }
+
+    if (req.file) {
+      datos.imagen_perfil = `/uploads/usuarios/${req.file.filename}`;
+    }
+
+    const usuario = await Usuario.findByIdAndUpdate(
+        req.params.id,
+        datos,
+        { returnDocument: "after" }
+    ).select("-contrasena");
+
+    res.json({
+      success: true,
+      usuario
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message
+    });
+  }
 });
 
 module.exports = router;

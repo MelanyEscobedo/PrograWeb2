@@ -1,131 +1,156 @@
-* {    
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    box-sizing: border-box;
+.perfil-page {
+    min-height: 100vh;
+    background-color: #FFEB3B;
 }
 
-a {
-    text-decoration: none;
+.perfil-main {
+    width: 100%;
+    padding: 130px 30px 40px;
+
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 25px;
+    align-items: start;
 }
 
-body {
+.perfil-card {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 0 12px 12px 0;
+    box-shadow: 2px 2px 25px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 120px;
+    color: black;
+}
+
+.perfil-img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 20px;
+}
+
+.perfil-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.perfil-card p {
+    margin-bottom: 12px;
+}
+
+.perfil-form {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; 
+    gap: 10px;
 }
 
-.navbar {
-    background-color: #f9d71c; 
+.perfil-form input,
+.edit-review-form input,
+.edit-review-form textarea {
+    padding: 10px;
+    border: 1px solid #f9d71c;
+    border-radius: 6px;
+}
+
+.btn-editar,
+.btn-cancelar,
+.review-actions button,
+.edit-review-form button {
+    background-color: #f9d71c;
     color: #fff;
-    padding: 10px 0;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    height: 80px; 
-}
-
-.navbar .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 40px;
-}
-
-.navbar .logo {
-    text-decoration: none;
-}
-
-.logo {
-    margin-left: 20px;
-}
-
-.logo-icon {
-    width: 70px;
-    height: auto;
-}
-
-.search-box {
-    display: flex;
-    align-items: center;
-}
-
-.search-box input {
-    padding: 8px;
-    font-size: 16px;
     border: none;
-    border-radius: 5px 0 0 5px;
-}
-
-.search-box button {
-    padding: 8px 15px;
-    font-size: 16px;
-    background-color: #f9d71c; 
-    color: #fff;
-    border: 2px solid #fff;
-    border-radius: 0 5px 5px 0;
-    cursor: pointer;
-}
-
-.btn-editar {
-    background-color: #f9d71c;
-    color: #fff;
-    border: none; 
-    padding: 8px 15px; 
-    border-radius: 5px;
-    font-size: 16px; 
-    cursor: pointer; 
-}
-
-.btn-editar:hover {
-    background-color: #e8c32e; 
-}
-
-.btn-editar:focus {
-    box-shadow: none; 
-}
-
-.nav-links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    margin-right: 20px;
-}
-
-.nav-links li {
-    display: inline;
-    margin-left: 20px;
-}
-
-.nav-links li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 22px;
+    padding: 9px 14px;
+    border-radius: 6px;
     font-weight: bold;
+    cursor: pointer;
+    margin: 5px;
 }
 
-.main {
-    flex-grow: 1;
-    margin-top: 40px; 
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: calc(100vh - 80px - 40px); 
+.btn-cancelar,
+.btn-eliminar {
+    background-color: #e53935 !important;
 }
 
-.divPerfil {
-    width: 100%;
-    max-width: 1420px; 
+.perfil-reviews {
+    background-color: rgba(255,255,255,0.45);
+    padding: 25px;
+    border-radius: 12px;
 }
 
-footer {
-    background-color: #f9d71c;
-    color: #fff;
-    padding: 10px 0;
+.perfil-reviews h2 {
     text-align: center;
-    width: 100%; 
-    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.perfil-review-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 2px 2px 20px rgba(0,0,0,0.12);
+    margin-bottom: 20px;
+    padding: 15px;
+
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 18px;
+}
+
+.perfil-review-card img {
+    width: 180px;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.review-info h3 {
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.review-info h4 {
+    color: #f9b700;
+    margin-bottom: 12px;
+}
+
+.review-info p {
+    margin-bottom: 10px;
+    color: black;
+}
+
+.review-actions {
+    margin-top: 15px;
+}
+
+.edit-review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-review-form textarea {
+    min-height: 120px;
+    resize: none;
+}
+
+@media (max-width: 1000px) {
+    .perfil-main {
+        grid-template-columns: 1fr;
+        padding: 150px 20px 40px;
+    }
+
+    .perfil-card {
+        position: static;
+        border-radius: 12px;
+    }
+
+    .perfil-review-card {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-review-card img {
+        width: 100%;
+        height: 260px;
+    }
 }
